@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="initial-scale=1, user-scalable=yes">
+  <title>Ethereum input data decoder</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <h1>Ethereum input data decoder</h1>
+
+  <div class="container">
+    <div class="column">
+      <div class="actions"></div>
+      <label>ABI</label>
+      <textarea id="abiInput" cols="70" rows="35">
+        [
+        {
+          "inputs": [
+            {
+              "internalType": "contract INfor",
+              "name": "_nforAddr",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "gelato1Balance",
+              "type": "address"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "_orgHash",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "uint256",
+              "name": "_subscriptionTokenId",
+              "type": "uint256"
+            }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "constructor"
+        },
+        {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "bytes32",
+              "name": "measurementId",
+              "type": "bytes32"
+            },
+            {
+              "indexed": true,
+              "internalType": "bytes32",
+              "name": "stepId",
+              "type": "bytes32"
+            }
+          ],
+          "name": "ExternalCallSucceded",
+          "type": "event"
+        },
+        {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "user",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "internalType": "bytes32",
+              "name": "measurementId",
+              "type": "bytes32"
+            },
+            {
+              "indexed": true,
+              "internalType": "bytes32",
+              "name": "stepId",
+              "type": "bytes32"
+            },
+            {
+              "indexed": false,
+              "internalType": "bytes32",
+              "name": "processId",
+              "type": "bytes32"
+            },
+            {
+              "indexed": false,
+              "internalType": "bytes32",
+              "name": "eventId",
+              "type": "bytes32"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "tokenId",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "internalType": "bytes32",
+              "name": "dataHash",
+              "type": "bytes32"
+            },
+            {
+              "indexed": false,
+              "internalType": "enum IConsensus.MeasurementAction",
+              "name": "actionType",
+              "type": "uint8"
+            }
+          ],
+          "name": "NewEvent",
+          "type": "event"
+        },
+        {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "functionName",
+              "type": "string"
+            },
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "policy",
+              "type": "string"
+            }
+          ],
+          "name": "NewFunctionPolicy",
+          "type": "event"
+        },
+        {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "bytes32",
+              "name": "processId",
+              "type": "bytes32"
+            },
+            {
+              "indexed": true,
+              "internalType": "bytes32",
+              "name": "oldStepId",
+              "type": "bytes32"
+            },
+            {
+              "indexed": true,
+              "internalType": "bytes32",
+              "name": "newStepId",
+              "type": "bytes32"
+            }
+          ],
+          "name": "NewStepName",
+          "type": "event"
+        },
+        {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "bytes32",
+              "name": "measurementId",
+              "type": "bytes32"
+            },
+            {
+              "indexed": true,
+              "internalType": "bytes32",
+              "name": "stepId",
+              "type": "bytes32"
+            },
+            {
+              "indexed": false,
+              "internalType": "address",
+              "name": "smartContractAddress",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "bytes",
+              "name": "data",
+              "type": "bytes"
+            }
+          ],
+          "name": "SetExternalCallData",
+          "type": "event"
+        },
+        {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "bytes32",
+              "name": "processId",
+              "type": "bytes32"
+            },
+            {
+              "indexed": true,
+              "internalType": "bytes32",
+              "name": "stepId",
+              "type": "bytes32"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256[]",
+              "name": "tokenIds",
+              "type": "uint256[]"
+            },
+            {
+              "indexed": false,
+              "internalType": "bytes32[]",
+              "name": "stepIdsDependencies",
+              "type": "bytes32[]"
+            },
+            {
+              "indexed": false,
+              "internalType": "bytes32[]",
+              "name": "stepIdsReprovalDependencies",
+              "type": "bytes32[]"
+            }
+          ],
+          "name": "StepCreated",
+          "type": "event"
+        },
+        {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "bytes32",
+              "name": "stepId",
+              "type": "bytes32"
+            },
+            {
+              "indexed": true,
+              "internalType": "bytes32",
+              "name": "processId",
+              "type": "bytes32"
+            },
+            {
+              "indexed": false,
+              "internalType": "bytes32[]",
+              "name": "stepIdsDependencies",
+              "type": "bytes32[]"
+            }
+          ],
+          "name": "StepDependenciesUpdated",
+          "type": "event"
+        },
+        {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "bytes32",
+              "name": "processId",
+              "type": "bytes32"
+            },
+            {
+              "indexed": true,
+              "internalType": "bytes32",
+              "name": "stepId",
+              "type": "bytes32"
+            }
+          ],
+          "name": "StepRemoved",
+          "type": "event"
+        },
+        {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "bytes32",
+              "name": "stepId",
+              "type": "bytes32"
+            },
+            {
+              "indexed": true,
+              "internalType": "bytes32",
+              "name": "processId",
+              "type": "bytes32"
+            },
+            {
+              "indexed": false,
+              "internalType": "bytes32[]",
+              "name": "stepIdsReprovalDependencies",
+              "type": "bytes32[]"
+            }
+          ],
+          "name": "StepReprovalDependenciesUpdated",
+          "type": "event"
+        },
+        {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "bytes32",
+              "name": "stepId",
+              "type": "bytes32"
+            },
+            {
+              "indexed": true,
+              "internalType": "bytes32",
+              "name": "processId",
+              "type": "bytes32"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256[]",
+              "name": "tokenIds",
+              "type": "uint256[]"
+            }
+          ],
+          "name": "StepTokenIdsUpdated",
+          "type": "event"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "stepId",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "uint256[]",
+              "name": "tokenIds",
+              "type": "uint256[]"
+            }
+          ],
+          "name": "addTokenIdsToStep",
+          "outputs": [],
+          "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "measurementId",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "stepId",
+              "type": "bytes32"
+            }
+          ],
+          "name": "areDependenciesMet",
+          "outputs": [
+            {
+              "internalType": "bool",
+              "name": "",
+              "type": "bool"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "processId",
+              "type": "bytes32"
+            }
+          ],
+          "name": "consensusFlow",
+          "outputs": [
+            {
+              "internalType": "bytes32[]",
+              "name": "stepIds",
+              "type": "bytes32[]"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "processId",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "stepId",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "uint256[]",
+              "name": "tokenIds",
+              "type": "uint256[]"
+            },
+            {
+              "internalType": "bytes32[]",
+              "name": "stepIdsDependencies",
+              "type": "bytes32[]"
+            },
+            {
+              "internalType": "bytes32[]",
+              "name": "stepIdsReprovalDependencies",
+              "type": "bytes32[]"
+            }
+          ],
+          "name": "createStep",
+          "outputs": [],
+          "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "eventDataId",
+              "type": "bytes32"
+            }
+          ],
+          "name": "eventData",
+          "outputs": [
+            {
+              "internalType": "address",
+              "name": "user",
+              "type": "address"
+            },
+            {
+              "internalType": "enum IConsensus.MeasurementAction",
+              "name": "actionType",
+              "type": "uint8"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "dataHash",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "stepId",
+              "type": "bytes32"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "string",
+              "name": "",
+              "type": "string"
+            }
+          ],
+          "name": "functionPolicy",
+          "outputs": [
+            {
+              "internalType": "string",
+              "name": "",
+              "type": "string"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "processId",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "measurementId",
+              "type": "bytes32"
+            }
+          ],
+          "name": "isMeasurementFullyConsensed",
+          "outputs": [
+            {
+              "internalType": "bool",
+              "name": "",
+              "type": "bool"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "measurementId",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "stepId",
+              "type": "bytes32"
+            }
+          ],
+          "name": "isStepAgreedUpon",
+          "outputs": [
+            {
+              "internalType": "bool",
+              "name": "",
+              "type": "bool"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "measurementId",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "stepId",
+              "type": "bytes32"
+            }
+          ],
+          "name": "isStepReproved",
+          "outputs": [
+            {
+              "internalType": "bool",
+              "name": "",
+              "type": "bool"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "stepId",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "uint256",
+              "name": "tokenId",
+              "type": "uint256"
+            }
+          ],
+          "name": "isTokenIdRegisteredInStep",
+          "outputs": [
+            {
+              "internalType": "bool",
+              "name": "",
+              "type": "bool"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "forwarder",
+              "type": "address"
+            }
+          ],
+          "name": "isTrustedForwarder",
+          "outputs": [
+            {
+              "internalType": "bool",
+              "name": "",
+              "type": "bool"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "",
+              "type": "bytes32"
+            }
+          ],
+          "name": "measurementExternallCall",
+          "outputs": [
+            {
+              "internalType": "bytes",
+              "name": "data",
+              "type": "bytes"
+            },
+            {
+              "internalType": "address",
+              "name": "smartContractAddress",
+              "type": "address"
+            },
+            {
+              "internalType": "bool",
+              "name": "executed",
+              "type": "bool"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes[]",
+              "name": "data",
+              "type": "bytes[]"
+            }
+          ],
+          "name": "multicall",
+          "outputs": [
+            {
+              "internalType": "bytes[]",
+              "name": "results",
+              "type": "bytes[]"
+            }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "nforAddr",
+          "outputs": [
+            {
+              "internalType": "contract INfor",
+              "name": "",
+              "type": "address"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256[]",
+              "name": "",
+              "type": "uint256[]"
+            },
+            {
+              "internalType": "uint256[]",
+              "name": "",
+              "type": "uint256[]"
+            },
+            {
+              "internalType": "bytes",
+              "name": "",
+              "type": "bytes"
+            }
+          ],
+          "name": "onERC1155BatchReceived",
+          "outputs": [
+            {
+              "internalType": "bytes4",
+              "name": "",
+              "type": "bytes4"
+            }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bytes",
+              "name": "",
+              "type": "bytes"
+            }
+          ],
+          "name": "onERC1155Received",
+          "outputs": [
+            {
+              "internalType": "bytes4",
+              "name": "",
+              "type": "bytes4"
+            }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "orgHash",
+          "outputs": [
+            {
+              "internalType": "bytes32",
+              "name": "",
+              "type": "bytes32"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "measurementId",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "stepId",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "uint256",
+              "name": "tokenId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "dataHash",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "enum IConsensus.MeasurementAction",
+              "name": "actionType",
+              "type": "uint8"
+            }
+          ],
+          "name": "registerAction",
+          "outputs": [],
+          "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "measurementId",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "stepId",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "uint256",
+              "name": "tokenId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "dataHash",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "enum IConsensus.MeasurementAction",
+              "name": "actionType",
+              "type": "uint8"
+            },
+            {
+              "internalType": "bytes",
+              "name": "externalFunctionCall",
+              "type": "bytes"
+            },
+            {
+              "internalType": "address",
+              "name": "smartContractAddress",
+              "type": "address"
+            }
+          ],
+          "name": "registerActionAndExternalFunctionCall",
+          "outputs": [],
+          "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "processId",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "stepId",
+              "type": "bytes32"
+            }
+          ],
+          "name": "removeStep",
+          "outputs": [],
+          "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "stepId",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "uint256",
+              "name": "tokenId",
+              "type": "uint256"
+            }
+          ],
+          "name": "removeTokenIdFromStep",
+          "outputs": [],
+          "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "string",
+              "name": "functionName",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "_policy",
+              "type": "string"
+            }
+          ],
+          "name": "setFunctionPolicy",
+          "outputs": [],
+          "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "contract INfor",
+              "name": "_nforAddr",
+              "type": "address"
+            }
+          ],
+          "name": "setNforAddress",
+          "outputs": [],
+          "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "stepId",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "uint256[]",
+              "name": "tokenIds",
+              "type": "uint256[]"
+            }
+          ],
+          "name": "setStepTokenIds",
+          "outputs": [],
+          "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "stepId",
+              "type": "bytes32"
+            }
+          ],
+          "name": "stepDefinition",
+          "outputs": [
+            {
+              "internalType": "uint256[]",
+              "name": "tokenIds",
+              "type": "uint256[]"
+            },
+            {
+              "internalType": "bytes32[]",
+              "name": "stepIdsDependencies",
+              "type": "bytes32[]"
+            },
+            {
+              "internalType": "bytes32[]",
+              "name": "stepIdsReprovalDependencies",
+              "type": "bytes32[]"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes4",
+              "name": "interfaceId",
+              "type": "bytes4"
+            }
+          ],
+          "name": "supportsInterface",
+          "outputs": [
+            {
+              "internalType": "bool",
+              "name": "",
+              "type": "bool"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "stepId",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes32[]",
+              "name": "stepIdsDependencies",
+              "type": "bytes32[]"
+            }
+          ],
+          "name": "updateStepIdsDependencies",
+          "outputs": [],
+          "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "stepId",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes32[]",
+              "name": "stepIdsReprovalDependencies",
+              "type": "bytes32[]"
+            }
+          ],
+          "name": "updateStepIdsReprovalDependencies",
+          "outputs": [],
+          "stateMutability": "nonpayable",
+          "type": "function"
+        }
+      ]
+      </textarea>
+    </div>
+    <div class="column">
+      <div class="actions"></div>
+      <label>Input Data</label>
+      <textarea id="dataInput" cols="70" rows="35"> 0x00...
+      </textarea>
+    </div>
+    <div class="column">
+      <div class="actions">
+        <button id="decode">Decode</button>
+      </div>
+      <div>
+        <label>Output</label>
+        <textarea id="output" cols="70" rows="35"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <script src="bundle.js"></script>
+
+  <a href="https://github.com/miguelmota/ethereum-input-data-decoder" target="_blank"><img
+      style="position: fixed; top: 0; right: 0; border: 0;"
+      src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+      alt="Fork me on GitHub"
+      data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
+
+</body>
+
+</html>

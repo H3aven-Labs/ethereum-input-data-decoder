@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "types": "index.d.ts",
   "scripts": {
+    "dev": "npx http-server ./out",
     "test": "tape ./test/index.js",
     "build:example": "browserify ./example/main.js -o ./example/bundle.js",
     "build": "babel index.js --presets babel-preset-es2015 --out-dir dist/",
@@ -53,6 +54,7 @@
     "babel-preset-es2015": "^6.24.1",
     "babelify": "^8.0.0",
     "browserify": "^16.2.3",
+    "http-server": "^14.1.1",
     "standard": "^12.0.1",
     "tape": "^4.6.3"
   }
